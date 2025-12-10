@@ -1,0 +1,55 @@
+1. Preprocesarea Datelor
+1.	Curățarea datelor:
+◦	Identificați valorile lipsă și decideți cum să le tratați (ex.: eliminare, înlocuire cu mediana/moda).
+◦	Verificați duplicatele și eliminați-le dacă este necesar.
+2.	Transformări:
+◦	Convertiți coloanele numerice în formate potrivite.
+◦	Asigurați-vă că datele categorice sunt standardizate.
+◦	Dacă este necesar, creați o variabila noua ce reflecta raportul preț/calitate 
+3.	Explorare inițială:
+◦	Calculați statistici descriptive pentru variabilele numerice (price, points, alcohol).
+◦	Identificați distribuția variabilelor categorice (ex.: câte vinuri sunt din fiecare țară, categorie sau soi).
+
+2. Analiza Textului (Descrierea Vinului)
+1.	Analiză preliminară:
+◦	Găsiți cele mai frecvente cuvinte din coloana description (excludeți cuvintele comune, cum ar fi „și”, „este”).
+◦	Determinați lungimea medie a descrierii vinurilor.
+2.	Wordcloud:
+◦	Generați un wordcloud pentru a vizualiza cele mai frecvente cuvinte din descriere.
+3.	Word corellation analysis:
+
+4.	
+◦	Efectuați o analiză de corelare a cuvintelor cele mai frecvente cu prețul și ratingul
+◦	Efectuați o analiză de corelare a cuvintelor cele mai frecvente cu soiuri
+
+3. Analiza Corelațiilor
+1.	Determinați dacă există o corelație între:
+◦	price (preț) și points (rating).
+◦	alcohol și points.
+◦	regiune și preț/points.
+◦	varitati de struguri și preț/points
+2.	Word correlation analysis
+3. Vizualizați corelațiile folosind:
+◦	Efectuați o analiză de corelare a cuvintelor cele mai frecvente cu prețul și ratingul
+◦	Efectuați o analiză de corelare a cuvintelor cele mai frecvente cu soiuri
+◦	Heatmap pentru corelațiile numerice.
+◦	Scatter plots pentru relații individuale.
+
+4. Vizualizări Avansate
+1.	Creați următoarele vizualizări:
+◦	Distribuția punctajelor (points): Folosiți un histogramă.
+◦	Prețurile medii pe țară (country): Folosiți un bar plot.
+◦	Distribuția vinurilor după categorii și regiuni: Folosiți un stacked bar chart.
+2.	Generați un scatter plot interactiv care să arate relația dintre price și points, colorat în funcție de category.
+
+5. Aplicatie
+1.	Creati o applicate (preferabil în Streamlit) care sa realizeze următoarele
+1.	Filtre după diferite criterii, inclusiv raportul preț/calitate
+2.	Afisare vizualizărilor descrise mai sus
+3.	Căutarea vinurilor conform descrierii textuale, introduse de utilizator (Opțional, poate fi implicat OpenAI)
+6. Raport Final
+1.	Rezumați descoperirile:
+◦	Ce tipare sau relații interesante ați identificat?
+◦	Cum influențează descrierea vinului (description) scorul (points) și prețul (price)?
+◦	Ce țări sau categorii produc cele mai scumpe/cele mai bine cotate vinuri?
+2.	Includeți graficele generate în raport.
