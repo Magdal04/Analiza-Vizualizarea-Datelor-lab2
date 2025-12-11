@@ -107,22 +107,81 @@ def transforming_data(df):
     
     correlation_price = df[word_cols + ["price"]].corr()["price"]
     correlation_points = df[word_cols + ["points"]].corr()["points"]
-    
+
     print("\nCorelație cu prețul:")
     print(correlation_price.drop("price"))
-    
+
     print("\nCorelație cu ratingul (points):")
     print(correlation_points.drop("points"))
-    
+
+    corr_df = pd.DataFrame({
+        'Corelație cu Prețul': correlation_price.drop("price"),
+        'Corelație cu Ratingul': correlation_points.drop("points")
+    })
+
+    # Sortează după corelația cu prețul (cea mai puternică)
+    corr_df = corr_df.sort_values('Corelație cu Prețul', ascending=False)
+
+    # Grafic 1: Heatmap dublă
+    fig, ax = plt.subplots(figsize=(10, max(8, len(corr_df)*0.3)))
+
+    # Creează copie pentru a modifica doar etichetele afișate
+    display_corr_df = corr_df.copy()
+
+    # Modifică indexul pentru afișare (înlocuiește "word_" cu spațiu gol)
+    display_corr_df.index = [idx.replace('word_', '') for idx in display_corr_df.index]
+
+    sns.heatmap(display_corr_df.T, 
+                annot=True, 
+                fmt=".2f", 
+                cmap="RdBu_r", 
+                center=0,
+                cbar_kws={'label': 'Coeficient de corelație'},
+                ax=ax)
+    ax.set_title("Corelația cuvintelor cu Prețul și Ratingul", fontsize=14, pad=20)
+    plt.tight_layout()
+    plt.savefig("graphs/corelation_heatmap_words_with_price_rating.png")
+    plt.show()
+
+
     top_varieties_list = df['variety'].value_counts().head(20).index.tolist()
     df_top_varieties = df[df['variety'].isin(top_varieties_list)]
     df_dummies = pd.get_dummies(df_top_varieties, columns=['variety'], dtype=int)
     variety_dummy_cols = [col for col in df_dummies.columns if col.startswith('variety_')]
     correlation_varieties_matrix = df_dummies[word_cols + variety_dummy_cols].corr()
-    
+
     print("\nAnaliza de corelare a cuvintelor cu soiurile (doar cuvintele vs soiurile):")
     print(correlation_varieties_matrix.loc[word_cols, variety_dummy_cols])
-    
+
+    # Obține matricea de corelație cuvânt-soi
+    correlation_matrix = correlation_varieties_matrix.loc[word_cols, variety_dummy_cols]
+
+    # Versiunea 1: Heatmap simplu
+    plt.figure(figsize=(14, 10))
+
+    # Creează copii pentru etichetele de afișat
+    display_y_labels = [idx.replace('word_', '') for idx in correlation_matrix.index]
+    display_x_labels = [col.replace('variety_', '') for col in correlation_matrix.columns]
+
+    # Folosește heatmap cu etichetele personalizate
+    sns.heatmap(correlation_matrix,
+                cmap="RdBu_r",
+                center=0,
+                annot=True,
+                fmt=".2f",
+                cbar_kws={'label': 'Coeficient de corelație'},
+                linewidths=0.5,
+                linecolor='gray',
+                yticklabels=display_y_labels,  # Etichete personalizate pe axa Y
+                xticklabels=display_x_labels)  # Etichete personalizate pe axa X
+
+    plt.title("Corelația între cuvintele frecvente și soiurile de vin", fontsize=16, pad=20)
+    plt.xlabel("Soiuri de vin")
+    plt.ylabel("Cuvinte frecvente")
+    plt.tight_layout()
+    plt.savefig("graphs/corelation_heatmap_words_variety.png")
+    plt.show()
+
     print(df[['points', "price"]].corr()["price"])
     print(df[['points', "alcohol"]].corr()["points"])
     
